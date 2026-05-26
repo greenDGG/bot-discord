@@ -1,23 +1,28 @@
 const { EmbedBuilder } = require('discord.js');
+const { configDB } = require('../utils/db');
 const config = require('../config');
 
 module.exports = {
   name: 'guildMemberAdd',
 
   async execute(client, member) {
+    const channels = await configDB.get(`channels_${member.guild.id}`) ?? {};
+
     // Bienvenida
-    if (config.channels.welcome) {
-      client.channels.cache.get(config.channels.welcome)?.send(
+    const welcomeId = channels.welcome || config.channels.welcome;
+    if (welcomeId) {
+      client.channels.cache.get(welcomeId)?.send(
         `Hey ${member.user}, ¡Bienvenido al servidor!`
       );
     }
+
     if (config.roles.welcome) {
       member.roles.add(config.roles.welcome).catch(() => null);
     }
 
-    // Invite tracking (solo para el guild configurado)
-    if (!process.env.GUILD_ID || member.guild.id !== process.env.GUILD_ID) return;
-    if (!config.channels.inviteLog) return;
+    // Invite tracking
+    const inviteLogId = channels.logs || config.channels.inviteLog;
+    if (!inviteLogId) return;
 
     const gInvites = await member.guild.invites.fetch().catch(() => null);
     if (!gInvites) return;
@@ -28,9 +33,12 @@ module.exports = {
     });
     client.invites = gInvites;
 
-    const embed = new EmbedBuilder().setDescription(
-      `${member} entró al servidor.${invite ? ` Invitado por **${invite.inviter.tag}**.` : ''} Cuenta creada: ${member.user.createdAt.toLocaleDateString('en-us')}.`
-    );
-    client.channels.cache.get(config.channels.inviteLog)?.send({ embeds: [embed] });
+    const embed = new EmbedBuilder()
+      .setColor(0x8a00ff)
+      .setDescription(
+        `${member} entró al servidor.${invite ? ` Invitado por **${invite.inviter.username}**.` : ''}\n` +
+        `Cuenta creada: <t:${Math.floor(member.user.createdTimestamp / 1000)}:D>`,
+      );
+    client.channels.cache.get(inviteLogId)?.send({ embeds: [embed] });
   },
 };

@@ -27,9 +27,9 @@ module.exports = {
       casino: new EmbedBuilder().setTitle('Comandos De Economía').setColor(0x8a00ff)
         .setDescription(`\`${p}bal\` ver saldo\n\`${p}work\` trabajar\n\`${p}crime\` crimen\n\`${p}slut\` otro trabajo\n\`${p}dep\` depositar dinero`),
       otros: new EmbedBuilder().setTitle('Otros Comandos').setColor(0x8a00ff)
-        .setDescription(`\`${p}avatar\` ver avatar\n\`${p}cat\` fotos de gatos\n\`${p}dog\` fotos de perros\n\`${p}emoji\` ver emoji en grande\n\`${p}kill\` asesinar a alguien\n\`${p}love\` compatibilidad\n\`${p}meme\` memes\n\`${p}waifus\` waifus\n\`${p}say\` repetir texto\n\`${p}diseños\` diseños\n\`${p}ticket\` abrir ticket\n\`${p}sugerencia\` enviar sugerencia`),
+        .setDescription(`\`${p}avatar\` ver avatar\n\`${p}cat\` fotos de gatos\n\`${p}dog\` fotos de perros\n\`${p}emoji\` ver emoji en grande\n\`${p}kill\` asesinar a alguien\n\`${p}love\` compatibilidad\n\`${p}meme\` memes\n\`${p}waifus\` waifus\n\`${p}say\` repetir texto\n\`${p}ticket\` panel de tickets\n\`${p}sugerencia\` enviar sugerencia`),
       todo: new EmbedBuilder().setTitle('Todos Los Comandos').setColor(0x8a00ff)
-        .setDescription('`ban` `clear` `kick` `unban` `warn` `warns` `clearwarns` `timeout` `untimeout` `lock` `unlock` `slowmode` `role` `bal` `crime` `dep` `slut` `work` `withdraw` `coinflip` `slots` `rob` `richest` `avatar` `cat` `dog` `emoji` `kill` `love` `meme` `waifus` `8ball` `akinator` `buscaminas` `ppt` `tictactoe` `play` `pause` `resume` `skip` `stop` `say` `serverinfo` `setprefix` `sugerencia` `ticket` `userinfo` `botinfo` `help` `ping` `level`'),
+        .setDescription(ctx.client.commands.map(c => `\`${c.name}\``).join(' ')),
     };
 
     if (h && embeds[h]) return ctx.reply({ embeds: [embeds[h]] });

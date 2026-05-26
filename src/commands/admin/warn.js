@@ -14,7 +14,7 @@ module.exports = {
   async run(ctx) {
     const err = t => ctx.reply({ embeds: [new EmbedBuilder().setColor(0xFF0000).setDescription(t)] });
 
-    if (!ctx.member.permissions.has(PermissionFlagsBits.BanMembers)) return err('No tienes permisos!');
+    if (!ctx.member.permissions.has(PermissionFlagsBits.ModerateMembers)) return err('No tienes permisos!');
 
     const user = ctx.args.usuario;
     if (!user) return err('Debes mencionar a alguien!');
