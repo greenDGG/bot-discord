@@ -5,6 +5,7 @@ const TYPES = {
   sugerencias: { key: 'suggest',       label: '💡 Sugerencias',         needsCategory: false },
   tickets:     { key: 'ticketCategory', label: '🎫 Tickets (categoría)', needsCategory: true  },
   bienvenida:  { key: 'welcome',        label: '👋 Bienvenida',          needsCategory: false },
+  despedida:   { key: 'goodbye',        label: '🚪 Despedida',           needsCategory: false },
   logs:        { key: 'logs',           label: '📋 Logs',                needsCategory: false },
   niveles:     { key: 'levelup',        label: '🎉 Subida de nivel',     needsCategory: false },
 };
@@ -15,7 +16,7 @@ module.exports = {
   description: 'Configura los canales del bot (Admin)',
   category: 'admin',
   options: [
-    { name: 'tipo',  type: 'STRING',  required: false, description: 'Tipo de canal: sugerencias, tickets, bienvenida, logs, niveles (o "ver")' },
+    { name: 'tipo',  type: 'STRING',  required: false, description: 'Tipo: sugerencias, tickets, bienvenida, despedida, logs, niveles (o "ver")' },
     { name: 'canal', type: 'CHANNEL', required: false, description: 'Canal o categoría a configurar' },
   ],
 

@@ -2,6 +2,14 @@ const { EmbedBuilder } = require('discord.js');
 const { configDB } = require('../utils/db');
 const config = require('../config');
 
+function parsearMensaje(template, member) {
+  return template
+    .replace(/{user}/g,        `${member}`)
+    .replace(/{username}/g,    member.user.username)
+    .replace(/{server}/g,      member.guild.name)
+    .replace(/{membercount}/g, member.guild.memberCount);
+}
+
 module.exports = {
   name: 'guildMemberAdd',
 
@@ -11,9 +19,27 @@ module.exports = {
     // Bienvenida
     const welcomeId = channels.welcome || config.channels.welcome;
     if (welcomeId) {
-      client.channels.cache.get(welcomeId)?.send(
-        `Hey ${member.user}, ¡Bienvenido al servidor!`
-      );
+      const canal = client.channels.cache.get(welcomeId);
+      if (canal) {
+        const template = await configDB.get(`welcome_msg_${member.guild.id}`);
+        const texto    = template
+          ? parsearMensaje(template, member)
+          : `¡Bienvenido al servidor, ${member}!`;
+
+        const embed = new EmbedBuilder()
+          .setColor(0x8a00ff)
+          .setTitle('👋 ¡Nuevo miembro!')
+          .setDescription(texto)
+          .setThumbnail(member.user.displayAvatarURL({ size: 256 }))
+          .addFields(
+            { name: '📅 Cuenta creada', value: `<t:${Math.floor(member.user.createdTimestamp / 1000)}:R>`, inline: true },
+            { name: '👥 Miembro nº',    value: `${member.guild.memberCount}`, inline: true },
+          )
+          .setFooter({ text: member.guild.name, iconURL: member.guild.iconURL() ?? undefined })
+          .setTimestamp();
+
+        canal.send({ embeds: [embed] });
+      }
     }
 
     if (config.roles.welcome) {
@@ -33,12 +59,12 @@ module.exports = {
     });
     client.invites = gInvites;
 
-    const embed = new EmbedBuilder()
+    const logEmbed = new EmbedBuilder()
       .setColor(0x8a00ff)
       .setDescription(
         `${member} entró al servidor.${invite ? ` Invitado por **${invite.inviter.username}**.` : ''}\n` +
         `Cuenta creada: <t:${Math.floor(member.user.createdTimestamp / 1000)}:D>`,
       );
-    client.channels.cache.get(inviteLogId)?.send({ embeds: [embed] });
+    client.channels.cache.get(inviteLogId)?.send({ embeds: [logEmbed] });
   },
 };
