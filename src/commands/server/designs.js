@@ -10,11 +10,11 @@ const images = [
 module.exports = {
   name: 'diseños',
   alias: ['designs'],
-  description: 'Muestra un diseño aleatorio de Xims',
+  description: 'Muestra un diseño aleatorio',
 
   execute(client, message, args) {
     message.channel.send({ embeds: [new EmbedBuilder()
-      .setTitle('Diseños de Xims')
+      .setTitle('Diseños')
       .setImage(images[Math.floor(Math.random() * images.length)])
       .setColor(0x8a00ff)] });
   },

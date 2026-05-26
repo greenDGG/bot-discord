@@ -1,7 +1,7 @@
 {
-  "name": "BotDiscord",
+  "name": "bot-discord",
   "version": "14.0.0",
-  "description": "",
+  "description": "Bot de Discord multipropósito — discord.js v14",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

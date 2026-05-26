@@ -1,4 +1,4 @@
-# Xims Bot
+# Bot Discord
 
 Bot de Discord multipropósito construido con discord.js v14.
 
@@ -30,8 +30,8 @@ Bot de Discord multipropósito construido con discord.js v14.
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/xims-bot.git
-cd xims-bot
+git clone https://github.com/tu-usuario/bot-discord.git
+cd bot-discord
 ```
 
 ### 2. Instalar dependencias
