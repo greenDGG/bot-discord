@@ -10,11 +10,14 @@ module.exports = {
   name: '8ball',
   alias: [],
   description: 'La bola mágica responde tu pregunta',
+  options: [
+    { name: 'pregunta', type: 'STRING', required: true, description: 'Tu pregunta', rest: true },
+  ],
 
-  execute(client, message, args) {
-    const question = args.join(' ');
-    if (!question) return message.channel.send('¡Escribe tu pregunta!');
-    message.channel.send({ embeds: [new EmbedBuilder()
+  async run(ctx) {
+    const question = ctx.args.pregunta;
+    if (!question) return ctx.reply('¡Escribe tu pregunta!');
+    ctx.reply({ embeds: [new EmbedBuilder()
       .setTitle(':8ball: 8Ball :8ball:')
       .setDescription(`**Tu pregunta:**\n${question}\n\n**Mi respuesta:**\n${responses[Math.floor(Math.random() * responses.length)]}`)
       .setColor(0x0008ff)] });

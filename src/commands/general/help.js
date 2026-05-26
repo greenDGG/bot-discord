@@ -6,10 +6,13 @@ module.exports = {
   name: 'help',
   alias: ['ayuda'],
   description: 'Muestra los comandos del bot',
+  options: [
+    { name: 'categoria', type: 'STRING', required: false, description: 'Categoría (mod, info, juegos, musica, casino, otros, todo)' },
+  ],
 
-  async execute(client, message, args) {
-    const prefix = (await prefixDB.get(`prefix_${message.guild.id}`)) || config.prefix;
-    const h = args.join(' ');
+  async run(ctx) {
+    const prefix = (await prefixDB.get(`prefix_${ctx.guild.id}`)) || config.prefix;
+    const h = ctx.args.categoria;
     const p = prefix;
 
     const embeds = {
@@ -26,24 +29,24 @@ module.exports = {
       otros: new EmbedBuilder().setTitle('Otros Comandos').setColor(0x8a00ff)
         .setDescription(`\`${p}avatar\` ver avatar\n\`${p}cat\` fotos de gatos\n\`${p}dog\` fotos de perros\n\`${p}emoji\` ver emoji en grande\n\`${p}kill\` asesinar a alguien\n\`${p}love\` compatibilidad\n\`${p}meme\` memes\n\`${p}waifus\` waifus\n\`${p}say\` repetir texto\n\`${p}diseños\` diseños\n\`${p}ticket\` abrir ticket\n\`${p}sugerencia\` enviar sugerencia`),
       todo: new EmbedBuilder().setTitle('Todos Los Comandos').setColor(0x8a00ff)
-        .setDescription('`ban` `clear` `kick` `mute` `unmute` `unban` `warn` `bal` `crime` `dep` `slut` `work` `avatar` `cat` `dog` `emoji` `kill` `love` `meme` `waifus` `8ball` `akinator` `buscaminas` `ppt` `tictactoe` `play` `pause` `resume` `skip` `stop` `diseños` `say` `serverinfo` `setprefix` `sugerencia` `ticket` `userinfo` `botinfo` `help` `ping` `level`'),
+        .setDescription('`ban` `clear` `kick` `unban` `warn` `warns` `clearwarns` `timeout` `untimeout` `lock` `unlock` `slowmode` `role` `bal` `crime` `dep` `slut` `work` `withdraw` `coinflip` `slots` `rob` `richest` `avatar` `cat` `dog` `emoji` `kill` `love` `meme` `waifus` `8ball` `akinator` `buscaminas` `ppt` `tictactoe` `play` `pause` `resume` `skip` `stop` `say` `serverinfo` `setprefix` `sugerencia` `ticket` `userinfo` `botinfo` `help` `ping` `level`'),
     };
 
-    if (embeds[h]) return message.channel.send({ embeds: [embeds[h]] });
+    if (h && embeds[h]) return ctx.reply({ embeds: [embeds[h]] });
 
-    message.channel.send({ embeds: [new EmbedBuilder()
+    ctx.reply({ embeds: [new EmbedBuilder()
       .setTitle('Comandos Del Bot')
       .setColor(0x8a00ff)
       .setDescription(`Prefijo del bot: \`${p}\`\n**Categorías:**`)
       .addFields(
-        { name: ':bookmark_tabs: **Información**',  value: `\`${p}help info\`` },
-        { name: ':crown: **Moderación**',            value: `\`${p}help mod\`` },
-        { name: ':musical_note: **Música**',         value: `\`${p}help musica\`` },
-        { name: ':video_game: **Mini Juegos**',      value: `\`${p}help juegos\`` },
-        { name: ':dollar: **Economía**',             value: `\`${p}help casino\`` },
-        { name: ':thinking: **Otros**',              value: `\`${p}help otros\`` },
-        { name: ':dizzy: **Todos Los Comandos**',    value: `\`${p}help todo\`` },
+        { name: ':bookmark_tabs: **Información**', value: `\`${p}help info\`` },
+        { name: ':crown: **Moderación**',           value: `\`${p}help mod\`` },
+        { name: ':musical_note: **Música**',        value: `\`${p}help musica\`` },
+        { name: ':video_game: **Mini Juegos**',     value: `\`${p}help juegos\`` },
+        { name: ':dollar: **Economía**',            value: `\`${p}help casino\`` },
+        { name: ':thinking: **Otros**',             value: `\`${p}help otros\`` },
+        { name: ':dizzy: **Todos Los Comandos**',   value: `\`${p}help todo\`` },
       )
-      .setAuthor({ name: message.member.displayName, iconURL: message.author.displayAvatarURL() })] });
+      .setAuthor({ name: ctx.member.displayName, iconURL: ctx.user.displayAvatarURL() })] });
   },
 };

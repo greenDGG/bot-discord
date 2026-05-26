@@ -2,13 +2,14 @@ module.exports = {
   name: 'resume',
   alias: ['continuar', 'continue'],
   description: 'Reanuda la música pausada',
+  options: [],
 
-  execute(client, message, args) {
-    if (!message.member.voice.channel) return message.channel.send('Debes estar en un canal de voz');
-    const queue = client.distube.getQueue(message.guild.id);
-    if (!queue) return message.channel.send('No hay música en cola');
-    if (!queue.paused) return message.channel.send('La música no está pausada');
+  async run(ctx) {
+    if (!ctx.member.voice.channel) return ctx.reply('Debes estar en un canal de voz');
+    const queue = ctx.client.distube.getQueue(ctx.guild.id);
+    if (!queue) return ctx.reply('No hay música en cola');
+    if (!queue.paused) return ctx.reply('La música no está pausada');
     queue.resume();
-    message.channel.send('▶ Música reanudada');
+    ctx.reply('▶ Música reanudada');
   },
 };

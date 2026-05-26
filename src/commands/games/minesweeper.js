@@ -5,8 +5,9 @@ module.exports = {
   name: 'buscaminas',
   alias: ['minesweeper'],
   description: 'Genera un tablero de buscaminas en Discord',
+  options: [],
 
-  execute(client, message, args) {
+  async run(ctx) {
     const board = Array.from({ length: 10 }, () => Array(10).fill(0));
     let bombs   = 20;
 
@@ -25,6 +26,6 @@ module.exports = {
       }
     }
 
-    message.channel.send(board.map(row => row.map(v => emojis[v]).join('')).join('\n'));
+    ctx.reply(board.map(row => row.map(v => emojis[v]).join('')).join('\n'));
   },
 };

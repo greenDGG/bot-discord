@@ -9,5 +9,7 @@ const prefixDB  = new QuickDB({ filePath: path.join(dataDir, 'prefix.sqlite') })
 const economyDB = new QuickDB({ filePath: path.join(dataDir, 'economy.sqlite') });
 const levelsDB  = new QuickDB({ filePath: path.join(dataDir, 'levels.sqlite') });
 const warnsDB   = new QuickDB({ filePath: path.join(dataDir, 'warns.sqlite') });
+const ticketDB  = new QuickDB({ filePath: path.join(dataDir, 'tickets.sqlite') });
+const configDB  = new QuickDB({ filePath: path.join(dataDir, 'config.sqlite') });
 
-module.exports = { prefixDB, economyDB, levelsDB, warnsDB };
+module.exports = { prefixDB, economyDB, levelsDB, warnsDB, ticketDB, configDB };

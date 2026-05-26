@@ -5,17 +5,18 @@ module.exports = {
   name: 'dog',
   alias: ['perro'],
   description: 'Muestra una foto aleatoria de un perro',
+  options: [],
 
-  async execute(client, message, args) {
+  async run(ctx) {
     try {
       const res  = await fetch('https://dog.ceo/api/breeds/image/random');
       const data = await res.json();
-      message.channel.send({ embeds: [new EmbedBuilder()
+      ctx.reply({ embeds: [new EmbedBuilder()
         .setTitle('Perritos :dog:')
         .setColor(0x0008ff)
         .setImage(data.message)] });
     } catch {
-      message.channel.send('No pude encontrar un perrito :(');
+      ctx.reply('No pude encontrar un perrito :(');
     }
   },
 };

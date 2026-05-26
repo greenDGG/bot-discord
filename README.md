@@ -4,13 +4,12 @@ Bot de Discord multipropósito construido con discord.js v14.
 
 ## Características
 
-- Comandos de prefijo (`xm!`) y slash commands (`/`)
+- Comandos de prefijo (`!`) y slash commands (`/`) — ambos desde el mismo archivo
 - Sistema de niveles y XP
 - Economía con quick.db
 - Música con DisTube v5 (YouTube, Spotify)
-- Moderación (ban, kick, mute, warn, clear)
-- Sistema de tickets con reacciones
-- Seguimiento de invitaciones
+- Moderación (ban, kick, timeout, warn, clear)
+- Sistema de tickets con botones
 - Mini juegos (Akinator, Buscaminas, Tres en Raya, 8ball, PPT)
 - Prefijo personalizable por servidor
 
@@ -68,19 +67,9 @@ ROLE_WELCOME=
 ROLE_MUTED=
 ```
 
-> **¿Cómo obtengo el TOKEN?**
-> En el [Developer Portal](https://discord.com/developers/applications) → tu aplicación → Bot → Reset Token.
->
-> **¿Cómo obtengo el CLIENT_ID y GUILD_ID?**
-> Activa el Modo Desarrollador en Discord (Ajustes → Avanzado), luego clic derecho sobre tu servidor o aplicación para copiar el ID.
-
 ### 4. Invitar al bot al servidor
 
-En el Developer Portal → OAuth2 → URL Generator, selecciona los scopes:
-- `bot`
-- `applications.commands`
-
-Y los permisos de bot que necesites (Administrador para testing). Copia la URL generada y ábrela en el navegador.
+En el Developer Portal → OAuth2 → URL Generator, selecciona los scopes `bot` y `applications.commands`. Copia la URL generada y ábrela en el navegador.
 
 ### 5. Registrar slash commands
 
@@ -88,57 +77,27 @@ Y los permisos de bot que necesites (Administrador para testing). Copia la URL g
 npm run deploy
 ```
 
-Esto registra los slash commands en el servidor indicado en `GUILD_ID`. Solo necesitas hacerlo una vez o cuando añadas nuevos comandos slash.
-
 ### 6. Iniciar el bot
 
-**Desarrollo local** (sin Docker, con reinicio automático):
-
 ```bash
-npm run dev
+npm run dev   # desarrollo (reinicio automático)
+npm start     # producción
 ```
-
-**Producción local:**
-
-```bash
-npm start
-```
-
-**Con Docker** (recomendado para deploy):
-
-```bash
-docker compose up -d
-```
-
-Para ver los logs:
-
-```bash
-docker compose logs -f
-```
-
-Para detener:
-
-```bash
-docker compose down
-```
-
-> Las bases de datos SQLite se guardan en la carpeta `data/` y persisten entre reinicios del contenedor gracias al volumen definido en `docker-compose.yml`.
 
 ---
 
 ## Estructura del proyecto
 
 ```
-├── index.js                  # Entrada principal
-├── .env                      # Variables de entorno (no subir a Git)
-├── .env.example              # Plantilla de configuración
+├── index.js
+├── .env
 └── src/
-    ├── deploy-commands.js    # Registra slash commands (npm run deploy)
-    ├── config.js             # Configuración del servidor
+    ├── deploy-commands.js
+    ├── config.js
     ├── handlers/
-    │   ├── commandHandler.js # Carga comandos automáticamente
-    │   ├── eventHandler.js   # Carga eventos automáticamente
-    │   └── musicHandler.js   # Eventos de DisTube
+    │   ├── commandHandler.js   # carga y envuelve comandos automáticamente
+    │   ├── eventHandler.js
+    │   └── musicHandler.js
     ├── events/
     │   ├── ready.js
     │   ├── messageCreate.js
@@ -146,61 +105,121 @@ docker compose down
     │   ├── guildMemberAdd.js
     │   └── guildMemberRemove.js
     ├── commands/
-    │   ├── admin/            # ban, kick, mute, unmute, unban, warn, clear
-    │   ├── casino/           # bal, work, crime, slut, dep
-    │   ├── fun/              # cat, dog, kill, meme, waifus, love, avatar, emoji
-    │   ├── games/            # 8ball, ppt, minesweeper, akinator, tictactoe
-    │   ├── general/          # help, level, ping, setprefix, cont
-    │   ├── music/            # play, pause, resume, skip, stop
-    │   └── server/           # serverinfo, userinfo, botinfo, say, suggest, ticket, designs
+    │   ├── admin/    # ban, kick, timeout, warn, clear, setcanal…
+    │   ├── casino/   # bal, work, crime, dep, slots…
+    │   ├── fun/      # cat, dog, kill, meme, waifus, love, avatar, emoji
+    │   ├── games/    # 8ball, ppt, minesweeper, akinator, tictactoe
+    │   ├── general/  # help, level, ping, setprefix, cont
+    │   ├── music/    # play, pause, resume, skip, stop
+    │   └── server/   # serverinfo, userinfo, botinfo, say, suggest, ticket
     └── utils/
-        ├── db.js             # Instancias de quick.db
-        └── levels.js         # Lógica del sistema de niveles
+        ├── commandWrapper.js   # sistema universal prefix + slash
+        ├── db.js
+        ├── cooldown.js
+        ├── levels.js
+        └── economyConfig.js
 ```
 
 ---
 
 ## Añadir un comando
 
-Crea un archivo `.js` en la carpeta de categoría correspondiente dentro de `src/commands/`:
+Todos los comandos usan `run(ctx)`. El wrapper en `commandWrapper.js` auto-genera el handler de **prefix** y el **slash command** automáticamente — no hay que tocar nada más.
+
+### Estructura mínima
 
 ```js
-// src/commands/general/ejemplo.js
 module.exports = {
-  name: 'ejemplo',
-  alias: ['ej'],
-  description: 'Descripción del comando',
-
-  execute(client, message, args) {
-    message.channel.send('¡Hola!');
-  },
-};
-```
-
-El bot lo cargará automáticamente al reiniciar. Para añadir soporte de slash command, agrega también `data` y `slash`:
-
-```js
-const { SlashCommandBuilder } = require('discord.js');
-
-module.exports = {
-  name: 'ejemplo',
-  alias: [],
+  name: 'nombre',
+  alias: ['alias'],       // opcional
   description: 'Descripción',
-  data: new SlashCommandBuilder()
-    .setName('ejemplo')
-    .setDescription('Descripción'),
+  options: [],            // argumentos (vacío si no tiene)
 
-  execute(client, message, args) {
-    message.channel.send('¡Hola desde prefijo!');
-  },
-
-  async slash(interaction) {
-    await interaction.reply('¡Hola desde slash!');
+  async run(ctx) {
+    ctx.reply('¡Hola!');
   },
 };
 ```
 
-Luego ejecuta `npm run deploy` para registrar el nuevo slash command.
+### Objeto `ctx`
+
+| Propiedad | Tipo | Descripción |
+|---|---|---|
+| `ctx.user` | `User` | Autor del comando |
+| `ctx.member` | `GuildMember` | Miembro del servidor |
+| `ctx.guild` | `Guild` | Servidor |
+| `ctx.channel` | `TextChannel` | Canal donde se ejecutó |
+| `ctx.client` | `Client` | Cliente del bot |
+| `ctx.args` | `Object` | Argumentos por nombre (`ctx.args.usuario`) |
+| `ctx.reply(payload)` | función | Responde (prefix y slash) |
+| `ctx.replyEphemeral(payload)` | función | Solo visible para el autor |
+| `ctx.message` | `Message \| null` | Solo en prefix |
+| `ctx.interaction` | `Interaction \| null` | Solo en slash |
+
+> Para borrar el mensaje del autor: `ctx.message?.delete().catch(() => null)`
+
+### Tipos de opciones
+
+```js
+options: [
+  { name: 'usuario', type: 'USER',   required: true,  description: '…' },
+  { name: 'razon',   type: 'STRING', required: false, description: '…', rest: true },
+]
+```
+
+| `type` | Resuelve a |
+|---|---|
+| `STRING` | `string` — con `rest: true` consume todos los args restantes |
+| `USER` | `GuildMember` |
+| `CHANNEL` | `GuildChannel` |
+| `ROLE` | `Role` |
+| `INTEGER` | `number` (entero) |
+| `NUMBER` | `number` (decimal) |
+| `BOOLEAN` | `boolean` |
+
+### Ejemplo completo
+
+```js
+const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+
+module.exports = {
+  name: 'ban',
+  alias: ['banear'],
+  description: 'Banea a un usuario',
+  options: [
+    { name: 'usuario', type: 'USER',   required: true,  description: 'Usuario a banear' },
+    { name: 'razon',   type: 'STRING', required: false, description: 'Razón', rest: true },
+  ],
+
+  async run(ctx) {
+    if (!ctx.member.permissions.has(PermissionFlagsBits.BanMembers))
+      return ctx.replyEphemeral('❌ Sin permisos.');
+
+    await ctx.args.usuario.ban({ reason: ctx.args.razon ?? 'Sin razón' });
+    ctx.reply({ embeds: [new EmbedBuilder().setDescription(`Baneado: ${ctx.args.usuario}`)] });
+  },
+};
+```
+
+---
+
+## Base de datos (quick.db)
+
+| Export | Archivo | Uso |
+|---|---|---|
+| `prefixDB` | `prefix.sqlite` | Prefijos por servidor |
+| `economyDB` | `economy.sqlite` | Dinero, banco, economía |
+| `levelsDB` | `levels.sqlite` | XP y niveles |
+| `warnsDB` | `warns.sqlite` | Advertencias |
+| `ticketDB` | `tickets.sqlite` | Estado de tickets abiertos |
+| `configDB` | `config.sqlite` | Configuración general por servidor |
+
+La configuración de canales por servidor se guarda en `configDB` con clave `channels_<guildId>`:
+```js
+{ suggest: channelId, ticketCategory: categoryId, welcome: channelId, logs: channelId }
+```
+
+Configurable con `!setchannel <tipo> #canal`.
 
 ---
 
@@ -215,7 +234,6 @@ Luego ejecuta `npm run deploy` para registrar el nuevo slash command.
 | quick.db | ^9.1 | Base de datos SQLite |
 | dotenv | ^16.4 | Variables de entorno |
 | aki-api | ^5.2 | Akinator |
-| tresenraya | 0.0.5 | Tres en raya |
 
 ---
 

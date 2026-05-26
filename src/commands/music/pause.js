@@ -2,13 +2,14 @@ module.exports = {
   name: 'pause',
   alias: ['pausar'],
   description: 'Pausa la música',
+  options: [],
 
-  execute(client, message, args) {
-    if (!message.member.voice.channel) return message.channel.send('Debes estar en un canal de voz');
-    const queue = client.distube.getQueue(message.guild.id);
-    if (!queue) return message.channel.send('No hay música reproduciéndose');
-    if (queue.paused) return message.channel.send('La música ya está pausada');
+  async run(ctx) {
+    if (!ctx.member.voice.channel) return ctx.reply('Debes estar en un canal de voz');
+    const queue = ctx.client.distube.getQueue(ctx.guild.id);
+    if (!queue) return ctx.reply('No hay música reproduciéndose');
+    if (queue.paused) return ctx.reply('La música ya está pausada');
     queue.pause();
-    message.channel.send('⏸ Música pausada');
+    ctx.reply('⏸ Música pausada');
   },
 };

@@ -5,19 +5,22 @@ module.exports = {
   name: 'kill',
   alias: ['matar'],
   description: 'Mata a alguien (gif animado)',
+  options: [
+    { name: 'usuario', type: 'USER', required: true, description: 'Usuario a matar' },
+  ],
 
-  async execute(client, message, args) {
-    const user = message.mentions.members.first();
-    if (!user) return message.reply('Menciona a alguien');
+  async run(ctx) {
+    const user = ctx.args.usuario;
+    if (!user) return ctx.reply('Menciona a alguien');
     try {
       const res  = await fetch('https://nekos.best/api/v2/kill');
       const data = await res.json();
-      message.channel.send({ embeds: [new EmbedBuilder()
-        .setTitle(`${message.author.username} mató a ${user.user.username} 💀`)
+      ctx.reply({ embeds: [new EmbedBuilder()
+        .setTitle(`${ctx.user.username} mató a ${user.user.username} 💀`)
         .setColor(0x18CBDA)
         .setImage(data.results?.[0]?.url ?? null)] });
     } catch {
-      message.channel.send(`${message.author} mató a ${user.user.username} 💀`);
+      ctx.reply(`${ctx.user} mató a ${user.user.username} 💀`);
     }
   },
 };

@@ -14,22 +14,23 @@ module.exports = {
   name: 'work',
   alias: ['trabajar', 'w'],
   description: `Trabaja para ganar dinero (cooldown ${eco.cooldowns.work / 1000}s)`,
+  options: [],
 
-  async execute(client, message, args) {
-    const remaining = cd.check(message.author.id, 'work');
+  async run(ctx) {
+    const remaining = cd.check(ctx.user.id, 'work');
     if (remaining > 0)
-      return message.channel.send(`${message.author}, espera **${remaining}s** antes de volver a trabajar.`);
+      return ctx.reply(`${ctx.user}, espera **${remaining}s** antes de volver a trabajar.`);
 
-    cd.set(message.author.id, 'work', eco.cooldowns.work);
+    cd.set(ctx.user.id, 'work', eco.cooldowns.work);
 
-    const key    = `${message.guild.id}.${message.author.id}`;
+    const key    = `${ctx.guild.id}.${ctx.user.id}`;
     const ganado = eco.rand(eco.work.min, eco.work.max);
     const job    = trabajos[Math.floor(Math.random() * trabajos.length)];
     await db.add(`${key}.dinero`, ganado);
 
-    message.channel.send({ embeds: [new EmbedBuilder()
+    ctx.reply({ embeds: [new EmbedBuilder()
       .setTitle('💼 Trabajo')
-      .setDescription(`${message.author} trabajó de **${job}** y ganó ${eco.fmt(ganado)}`)
+      .setDescription(`${ctx.user} trabajó de **${job}** y ganó ${eco.fmt(ganado)}`)
       .setColor(0x00CC66)] });
   },
 };

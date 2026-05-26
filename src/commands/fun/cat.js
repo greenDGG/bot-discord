@@ -5,17 +5,18 @@ module.exports = {
   name: 'cat',
   alias: ['gato'],
   description: 'Muestra una foto aleatoria de un gato',
+  options: [],
 
-  async execute(client, message, args) {
+  async run(ctx) {
     try {
       const res  = await fetch('https://api.thecatapi.com/v1/images/search');
       const data = await res.json();
-      message.channel.send({ embeds: [new EmbedBuilder()
+      ctx.reply({ embeds: [new EmbedBuilder()
         .setTitle('Gatos :kissing_heart:')
         .setColor(0x0008ff)
         .setImage(data[0].url)] });
     } catch {
-      message.channel.send('No pude encontrar un gatito :(');
+      ctx.reply('No pude encontrar un gatito :(');
     }
   },
 };

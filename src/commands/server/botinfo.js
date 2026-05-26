@@ -4,11 +4,12 @@ module.exports = {
   name: 'botinfo',
   alias: ['bi'],
   description: 'Información sobre el bot',
+  options: [],
 
-  execute(client, message, args) {
-    message.channel.send({ embeds: [new EmbedBuilder()
-      .setAuthor({ name: 'Información del Bot', iconURL: client.user.displayAvatarURL() })
-      .setThumbnail(client.user.displayAvatarURL())
+  async run(ctx) {
+    ctx.reply({ embeds: [new EmbedBuilder()
+      .setAuthor({ name: 'Información del Bot', iconURL: ctx.client.user.displayAvatarURL() })
+      .setThumbnail(ctx.client.user.displayAvatarURL())
       .addFields(
         { name: '👑 Owner',          value: 'DenisGomezCrack', inline: true },
         { name: '⌨️ Desarrollador',  value: 'DenisGomezCrack', inline: true },

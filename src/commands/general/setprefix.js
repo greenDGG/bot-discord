@@ -5,17 +5,22 @@ module.exports = {
   name: 'setprefix',
   alias: ['sp'],
   description: 'Cambia el prefijo del bot en este servidor',
+  options: [
+    { name: 'prefijo', type: 'STRING', required: true, description: 'Nuevo prefijo' },
+  ],
 
-  async execute(client, message, args) {
-    if (!message.member.permissions.has(PermissionFlagsBits.Administrator))
-      return message.channel.send('No tienes permisos para cambiar el prefijo >:(');
-    if (!args[0]) return message.channel.send('Debes indicar un nuevo prefijo');
+  async run(ctx) {
+    if (!ctx.member.permissions.has(PermissionFlagsBits.Administrator))
+      return ctx.reply('No tienes permisos para cambiar el prefijo >:(');
 
-    await prefixDB.set(`prefix_${message.guild.id}`, args[0]);
+    const newPrefix = ctx.args.prefijo;
+    if (!newPrefix) return ctx.reply('Debes indicar un nuevo prefijo');
 
-    const owner = await message.guild.fetchOwner().catch(() => null);
-    owner?.send(`El prefijo ha sido cambiado a **${args[0]}**`).catch(() => null);
+    await prefixDB.set(`prefix_${ctx.guild.id}`, newPrefix);
 
-    message.channel.send(`El prefijo ha sido cambiado a **${args[0]}**`);
+    const owner = await ctx.guild.fetchOwner().catch(() => null);
+    owner?.send(`El prefijo ha sido cambiado a **${newPrefix}**`).catch(() => null);
+
+    ctx.reply(`El prefijo ha sido cambiado a **${newPrefix}**`);
   },
 };

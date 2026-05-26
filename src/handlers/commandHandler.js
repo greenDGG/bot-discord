@@ -1,5 +1,6 @@
 const fs   = require('fs');
 const path = require('path');
+const { wrap } = require('../utils/commandWrapper');
 
 module.exports = (client) => {
   const commandsPath = path.join(__dirname, '../commands');
@@ -12,7 +13,7 @@ module.exports = (client) => {
     const files = fs.readdirSync(categoryPath).filter(f => f.endsWith('.js'));
     for (const file of files) {
       try {
-        const command = require(path.join(categoryPath, file));
+        const command = wrap(require(path.join(categoryPath, file)));
         if (!command.name) continue;
         client.commands.set(command.name, command);
         if (command.data) client.slashCommands.set(command.name, command);

@@ -4,13 +4,18 @@ module.exports = {
   name: 'say',
   alias: [],
   description: 'Hace que el bot repita un mensaje',
+  options: [
+    { name: 'texto', type: 'STRING', required: true, description: 'Texto a repetir', rest: true },
+  ],
 
-  execute(client, message, args) {
-    if (!message.member.permissions.has(PermissionFlagsBits.ManageMessages))
-      return message.channel.send('No tienes permisos para usar este comando');
-    const text = args.join(' ');
-    if (!text) return message.channel.send('Escribe un texto');
-    message.delete().catch(() => null);
-    message.channel.send(text);
+  async run(ctx) {
+    if (!ctx.member.permissions.has(PermissionFlagsBits.ManageMessages))
+      return ctx.reply('No tienes permisos para usar este comando');
+
+    const text = ctx.args.texto;
+    if (!text) return ctx.reply('Escribe un texto');
+
+    ctx.message?.delete().catch(() => null);
+    ctx.channel.send(text);
   },
 };

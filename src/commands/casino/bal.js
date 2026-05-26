@@ -7,14 +7,17 @@ module.exports = {
   name: 'bal',
   alias: ['balance', 'saldo'],
   description: 'Muestra tu balance de dinero',
+  options: [
+    { name: 'usuario', type: 'USER', required: false, description: 'Usuario (deja vacío para verte a ti)' },
+  ],
 
-  async execute(client, message, args) {
-    const target = message.mentions.members.first() || message.member;
-    const key    = `${message.guild.id}.${target.id}`;
+  async run(ctx) {
+    const target = ctx.args.usuario || ctx.member;
+    const key    = `${ctx.guild.id}.${target.id}`;
     const dinero = (await db.get(`${key}.dinero`)) ?? 0;
     const banco  = (await db.get(`${key}.banco`))  ?? 0;
 
-    message.channel.send({ embeds: [new EmbedBuilder()
+    ctx.reply({ embeds: [new EmbedBuilder()
       .setAuthor({ name: target.displayName, iconURL: target.user.displayAvatarURL() })
       .setColor(0x8a00ff)
       .addFields(

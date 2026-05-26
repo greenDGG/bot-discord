@@ -2,25 +2,28 @@ module.exports = {
   name: 'play',
   alias: ['p'],
   description: 'Reproduce una canción o playlist (YouTube, Spotify)',
+  options: [
+    { name: 'cancion', type: 'STRING', required: true, description: 'Nombre o URL de la canción', rest: true },
+  ],
 
-  async execute(client, message, args) {
-    const query = args.join(' ');
-    if (!query) return message.channel.send('Escribe el nombre o URL de una canción');
+  async run(ctx) {
+    const query = ctx.args.cancion;
+    if (!query) return ctx.reply('Escribe el nombre o URL de una canción');
 
-    const voiceChannel = message.member.voice.channel;
-    if (!voiceChannel) return message.channel.send('Debes estar en un canal de voz');
+    const voiceChannel = ctx.member.voice.channel;
+    if (!voiceChannel) return ctx.reply('Debes estar en un canal de voz');
 
-    const botVC = message.guild.members.me?.voice?.channel;
+    const botVC = ctx.guild.members.me?.voice?.channel;
     if (botVC && voiceChannel.id !== botVC.id)
-      return message.channel.send('Debes estar en el mismo canal de voz que yo');
+      return ctx.reply('Debes estar en el mismo canal de voz que yo');
 
     try {
-      await client.distube.play(voiceChannel, query, {
-        member: message.member,
-        textChannel: message.channel,
+      await ctx.client.distube.play(voiceChannel, query, {
+        member: ctx.member,
+        textChannel: ctx.channel,
       });
     } catch (err) {
-      message.channel.send(`Error: ${err.message}`);
+      ctx.reply(`Error: ${err.message}`);
     }
   },
 };

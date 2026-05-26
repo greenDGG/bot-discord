@@ -11,13 +11,17 @@ module.exports = {
   name: 'slots',
   alias: ['slot', 'tragamonedas'],
   description: 'Gira el tragamonedas (slots <apuesta>)',
+  options: [
+    { name: 'apuesta', type: 'STRING', required: true, description: 'Cantidad a apostar (o "all")' },
+  ],
 
-  async execute(client, message, args) {
-    const err = t => message.channel.send({ embeds: [new EmbedBuilder().setColor(0xFF4444).setDescription(t)] });
+  async run(ctx) {
+    const err = t => ctx.reply({ embeds: [new EmbedBuilder().setColor(0xFF4444).setDescription(t)] });
 
-    const key    = `${message.guild.id}.${message.author.id}`;
+    const key    = `${ctx.guild.id}.${ctx.user.id}`;
     const dinero = (await db.get(`${key}.dinero`)) ?? 0;
-    const bet    = args[0]?.toLowerCase() === 'all' ? dinero : parseInt(args[0]);
+    const raw    = ctx.args.apuesta;
+    const bet    = raw?.toLowerCase() === 'all' ? dinero : parseInt(raw);
 
     if (isNaN(bet) || bet < eco.slots.minBet)
       return err(`Apuesta mínima: ${eco.fmt(eco.slots.minBet)}`);
@@ -50,7 +54,7 @@ module.exports = {
 
     const netStr = ganancia >= 0 ? `+${eco.fmt(ganancia)}` : `-${eco.fmt(bet)}`;
 
-    message.channel.send({ embeds: [new EmbedBuilder()
+    ctx.reply({ embeds: [new EmbedBuilder()
       .setTitle('🎰 Tragamonedas')
       .setDescription(`${display}\n\n${resultado}\n${netStr}`)
       .setColor(ganancia >= 0 ? 0x00CC66 : 0xFF4444)

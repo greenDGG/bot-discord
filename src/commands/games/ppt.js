@@ -8,21 +8,24 @@ module.exports = {
   name: 'ppt',
   alias: [],
   description: 'Juega Piedra Papel o Tijera contra el bot',
+  options: [
+    { name: 'eleccion', type: 'STRING', required: true, description: 'piedra, papel o tijera' },
+  ],
 
-  execute(client, message, args) {
-    const option = args[0]?.toLowerCase();
+  async run(ctx) {
+    const option = ctx.args.eleccion?.toLowerCase();
     if (!option || !['piedra', 'papel', 'tijera'].includes(option))
-      return message.channel.send('Escribe: `piedra`, `papel` o `tijera`');
+      return ctx.reply('Escribe: `piedra`, `papel` o `tijera`');
 
     const player = option.charAt(0).toUpperCase() + option.slice(1);
     const bot    = opts[Math.floor(Math.random() * opts.length)];
 
     let title, color;
-    if (bot === player)             { title = '**¡Empate!**';     color = 0xFFFF00; }
-    else if (wins[bot] === player)  { title = '**¡Has perdido!**'; color = 0xFF0000; }
-    else                            { title = '**¡Has ganado!**';  color = 0x00FF00; }
+    if (bot === player)            { title = '**¡Empate!**';      color = 0xFFFF00; }
+    else if (wins[bot] === player) { title = '**¡Has perdido!**'; color = 0xFF0000; }
+    else                           { title = '**¡Has ganado!**';  color = 0x00FF00; }
 
-    message.channel.send({ embeds: [new EmbedBuilder()
+    ctx.reply({ embeds: [new EmbedBuilder()
       .setTitle(title)
       .setDescription(`Yo elegí **${bot}** ${icons[bot]} · Tú elegiste **${player}** ${icons[player]}`)
       .setColor(color)] });

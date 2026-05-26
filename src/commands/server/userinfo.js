@@ -1,29 +1,61 @@
 const { EmbedBuilder } = require('discord.js');
 
-const statusMap = { online: 'Online', dnd: 'No Molestar', idle: 'Ausente', offline: 'OffLine' };
+const statusMap = {
+  online:  '🟢 En línea',
+  dnd:     '🔴 No molestar',
+  idle:    '🟡 Ausente',
+  offline: '⚫ Desconectado',
+};
 
 module.exports = {
   name: 'userinfo',
   alias: ['uinfo'],
   description: 'Muestra información de un usuario',
+  options: [
+    { name: 'usuario', type: 'USER', required: false, description: 'Usuario (deja vacío para verte a ti)' },
+  ],
 
-  execute(client, message, args) {
-    const user   = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
-    const status = statusMap[user.presence?.status] ?? 'Desconocido';
+  async run(ctx) {
+    const member = ctx.args.usuario || ctx.member;
+    const { user } = member;
+    const status   = statusMap[member.presence?.status] ?? '❓ Desconocido';
+    const roles    = member.roles.cache
+      .filter(r => r.id !== ctx.guild.id)
+      .sort((a, b) => b.position - a.position)
+      .map(r => r.toString())
+      .join(' ') || 'Sin roles';
 
-    message.channel.send({ embeds: [new EmbedBuilder()
-      .setTitle(`Información de ${user.user.username}`)
-      .setColor(0x8a00ff)
-      .setThumbnail(user.user.displayAvatarURL({ dynamic: true }))
-      .setAuthor({ name: message.member.displayName, iconURL: message.author.displayAvatarURL() })
+    const createdAt = `<t:${Math.floor(user.createdTimestamp / 1000)}:D>`;
+    const joinedAt  = member.joinedTimestamp
+      ? `<t:${Math.floor(member.joinedTimestamp / 1000)}:D>`
+      : '—';
+    const nickname  = member.nickname ?? '—';
+    const isBot     = user.bot ? 'Sí' : 'No';
+    const topRole   = member.roles.highest.id !== ctx.guild.id
+      ? member.roles.highest.toString()
+      : 'Sin rol';
+
+    const embed = new EmbedBuilder()
+      .setColor(member.displayHexColor !== '#000000' ? member.displayHexColor : 0x8a00ff)
+      .setAuthor({ name: `Información de usuario`, iconURL: user.displayAvatarURL() })
+      .setTitle(`${user.bot ? '🤖 ' : ''}${user.username}`)
+      .setThumbnail(user.displayAvatarURL({ size: 256 }))
       .addFields(
-        { name: 'Nombre',            value: user.user.username, inline: true },
-        { name: 'ID',                value: user.user.id, inline: true },
-        { name: 'Estado',            value: status, inline: true },
-        { name: 'Cuenta creada',     value: user.user.createdAt.toLocaleDateString('en-us'), inline: true },
-        { name: 'Ingresó al server', value: user.joinedAt?.toLocaleDateString('es-es') ?? '—', inline: true },
-        { name: 'Roles',             value: user.roles.cache.map(r => r.toString()).join(', ').slice(0, 1024) || 'Sin roles' },
-      )] });
-    message.delete().catch(() => null);
+        { name: '👤 Nombre de usuario', value: user.username,          inline: true },
+        { name: '🏷️ Apodo',             value: nickname,               inline: true },
+        { name: '🆔 ID',                value: `\`${user.id}\``,       inline: true },
+        { name: '📶 Estado',            value: status,                  inline: true },
+        { name: '🤖 Bot',               value: isBot,                   inline: true },
+        { name: '⭐ Rol principal',      value: topRole,                 inline: true },
+        { name: '📅 Cuenta creada',      value: createdAt,               inline: true },
+        { name: '📥 Ingresó al server',  value: joinedAt,                inline: true },
+        { name: '​',               value: '​',                inline: true },
+        { name: `📜 Roles (${member.roles.cache.size - 1})`, value: roles.slice(0, 1024) },
+      )
+      .setFooter({ text: `Solicitado por ${ctx.user.username}`, iconURL: ctx.user.displayAvatarURL() })
+      .setTimestamp();
+
+    ctx.message?.delete().catch(() => null);
+    ctx.channel.send({ embeds: [embed] });
   },
 };
