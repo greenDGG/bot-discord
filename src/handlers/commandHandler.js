@@ -15,6 +15,7 @@ module.exports = (client) => {
       try {
         const command = wrap(require(path.join(categoryPath, file)));
         if (!command.name) continue;
+        if (!command.category) command.category = category;
         client.commands.set(command.name, command);
         if (command.data) client.slashCommands.set(command.name, command);
       } catch (err) {
