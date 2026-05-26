@@ -4,6 +4,7 @@ module.exports = {
   name: 'say',
   alias: [],
   description: 'Hace que el bot repita un mensaje',
+  category: 'server',
   options: [
     { name: 'texto', type: 'STRING', required: true, description: 'Texto a repetir', rest: true },
   ],

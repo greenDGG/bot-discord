@@ -132,7 +132,8 @@ Todos los comandos usan `run(ctx)`. El wrapper en `commandWrapper.js` auto-gener
 module.exports = {
   name: 'nombre',
   alias: ['alias'],       // opcional
-  description: 'Descripción',
+  description: 'Descripción breve del comando',
+  category: 'general',   // carpeta a la que pertenece (ver tabla abajo)
   options: [],            // argumentos (vacío si no tiene)
 
   async run(ctx) {
@@ -140,6 +141,20 @@ module.exports = {
   },
 };
 ```
+
+### Campo `category`
+
+Determina en qué sección aparece el comando en `!help`. Si se omite, el bot lo asigna automáticamente desde el nombre de la carpeta.
+
+| Valor | Carpeta | Se muestra como |
+|---|---|---|
+| `'admin'` | `commands/admin/` | 🛡️ Moderación |
+| `'casino'` | `commands/casino/` | 💰 Economía |
+| `'fun'` | `commands/fun/` | 🎉 Diversión |
+| `'games'` | `commands/games/` | 🎮 Mini Juegos |
+| `'general'` | `commands/general/` | ℹ️ General |
+| `'music'` | `commands/music/` | 🎵 Música |
+| `'server'` | `commands/server/` | 🖥️ Servidor |
 
 ### Objeto `ctx`
 

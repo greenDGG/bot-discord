@@ -4,6 +4,7 @@ module.exports = {
   name: 'untimeout',
   alias: ['desmute', 'uto'],
   description: 'Quita el timeout a un usuario',
+  category: 'admin',
   options: [
     { name: 'usuario', type: 'USER', required: true, description: 'Usuario' },
   ],

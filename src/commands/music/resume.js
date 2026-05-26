@@ -2,6 +2,7 @@ module.exports = {
   name: 'resume',
   alias: ['continuar', 'continue'],
   description: 'Reanuda la música pausada',
+  category: 'music',
   options: [],
 
   async run(ctx) {

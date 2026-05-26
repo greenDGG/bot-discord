@@ -2,6 +2,7 @@ module.exports = {
   name: 'play',
   alias: ['p'],
   description: 'Reproduce una canción o playlist (YouTube, Spotify)',
+  category: 'music',
   options: [
     { name: 'cancion', type: 'STRING', required: true, description: 'Nombre o URL de la canción', rest: true },
   ],

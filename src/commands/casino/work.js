@@ -14,6 +14,7 @@ module.exports = {
   name: 'work',
   alias: ['trabajar', 'w'],
   description: `Trabaja para ganar dinero (cooldown ${eco.cooldowns.work / 1000}s)`,
+  category: 'casino',
   options: [],
 
   async run(ctx) {

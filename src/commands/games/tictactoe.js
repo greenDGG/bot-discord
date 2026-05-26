@@ -4,6 +4,7 @@ module.exports = {
   name: '3enrayas',
   alias: ['3r', 'tictactoe'],
   description: 'Juega Tres en Raya contra otro usuario',
+  category: 'games',
   options: [
     { name: 'rival', type: 'USER', required: true, description: 'Usuario contrincante' },
   ],

@@ -4,6 +4,7 @@ module.exports = {
   name: 'love',
   alias: ['amor'],
   description: 'Calcula el porcentaje de amor con alguien',
+  category: 'fun',
   options: [
     { name: 'usuario', type: 'USER', required: true, description: 'Usuario con quien calcular' },
   ],

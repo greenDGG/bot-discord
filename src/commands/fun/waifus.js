@@ -5,6 +5,7 @@ module.exports = {
   name: 'waifus',
   alias: ['monas', 'waifu'],
   description: 'Muestra una waifu aleatoria',
+  category: 'fun',
   options: [],
 
   async run(ctx) {

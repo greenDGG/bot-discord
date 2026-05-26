@@ -5,6 +5,7 @@ module.exports = {
   name: 'sugerencia',
   alias: ['suggest', 'sug'],
   description: 'Envía una sugerencia al canal configurado',
+  category: 'server',
   options: [
     { name: 'sugerencia', type: 'STRING', required: true, description: 'Tu sugerencia', rest: true },
   ],

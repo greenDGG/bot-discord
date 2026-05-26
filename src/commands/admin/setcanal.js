@@ -12,6 +12,7 @@ module.exports = {
   name: 'setchannel',
   alias: ['setcanal', 'setch'],
   description: 'Configura los canales del bot (Admin)',
+  category: 'admin',
   options: [
     { name: 'tipo',  type: 'STRING',  required: false, description: 'Tipo de canal: sugerencias, tickets, bienvenida, logs (o "ver")' },
     { name: 'canal', type: 'CHANNEL', required: false, description: 'Canal o categoría a configurar' },

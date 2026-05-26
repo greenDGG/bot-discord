@@ -4,6 +4,7 @@ module.exports = {
   name: 'clear',
   alias: ['limpiar'],
   description: 'Borra mensajes del canal',
+  category: 'admin',
   options: [
     { name: 'cantidad', type: 'INTEGER', required: true, description: 'Número de mensajes (1-100)' },
   ],

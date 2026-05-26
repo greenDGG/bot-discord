@@ -6,6 +6,7 @@ module.exports = {
   name: 'dep',
   alias: ['depositar', 'deposit'],
   description: 'Deposita dinero en el banco (dep <cantidad|all>)',
+  category: 'casino',
   options: [
     { name: 'cantidad', type: 'STRING', required: true, description: 'Cantidad a depositar (o "all")' },
   ],

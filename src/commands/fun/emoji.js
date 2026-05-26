@@ -4,6 +4,7 @@ module.exports = {
   name: 'emoji',
   alias: [],
   description: 'Muestra un emoji del servidor en grande',
+  category: 'fun',
   options: [
     { name: 'nombre', type: 'STRING', required: true, description: 'Nombre del emoji del servidor' },
   ],

@@ -4,6 +4,7 @@ module.exports = {
   name: 'role',
   alias: ['rol'],
   description: 'Da o quita un rol a un usuario',
+  category: 'admin',
   options: [
     { name: 'usuario', type: 'USER', required: true, description: 'Usuario objetivo' },
     { name: 'rol',     type: 'ROLE', required: true, description: 'Rol a dar o quitar' },

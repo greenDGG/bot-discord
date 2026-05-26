@@ -4,6 +4,7 @@ module.exports = {
   name: 'lock',
   alias: ['bloquear'],
   description: 'Bloquea el canal para que nadie pueda escribir',
+  category: 'admin',
   options: [],
 
   async run(ctx) {

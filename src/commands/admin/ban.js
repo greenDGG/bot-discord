@@ -5,6 +5,7 @@ module.exports = {
   name: 'ban',
   alias: ['banear'],
   description: 'Banea a un usuario del servidor',
+  category: 'admin',
   options: [
     { name: 'usuario', type: 'USER',   required: true,  description: 'Usuario a banear' },
     { name: 'razon',   type: 'STRING', required: true,  description: 'Razón del baneo', rest: true },

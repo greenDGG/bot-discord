@@ -4,6 +4,7 @@ module.exports = {
   name: 'ping',
   alias: [],
   description: 'Muestra el ping del bot',
+  category: 'general',
   options: [],
 
   async run(ctx) {

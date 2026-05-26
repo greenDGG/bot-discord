@@ -2,6 +2,7 @@ module.exports = {
   name: 'skip',
   alias: ['saltar'],
   description: 'Salta a la siguiente canción',
+  category: 'music',
   options: [],
 
   async run(ctx) {

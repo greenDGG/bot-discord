@@ -7,6 +7,7 @@ module.exports = {
   name: 'richest',
   alias: ['ricos', 'top', 'leaderboard'],
   description: 'Top 10 más ricos del servidor',
+  category: 'casino',
   options: [],
 
   async run(ctx) {

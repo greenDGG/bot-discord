@@ -8,6 +8,7 @@ module.exports = {
   name: 'akinator',
   alias: ['aki'],
   description: 'Juega al Akinator — piensa en un personaje y adivina',
+  category: 'games',
   options: [],
 
   async run(ctx) {

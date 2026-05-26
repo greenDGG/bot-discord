@@ -2,6 +2,7 @@ module.exports = {
   name: 'stop',
   alias: ['parar'],
   description: 'Detiene la música y limpia la cola',
+  category: 'music',
   options: [],
 
   async run(ctx) {

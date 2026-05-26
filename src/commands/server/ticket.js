@@ -11,6 +11,7 @@ module.exports = {
   name: 'ticket',
   alias: ['tsetup', 'ticketsetup'],
   description: 'Envía el panel de tickets en este canal (Admin)',
+  category: 'server',
   options: [],
 
   async run(ctx) {

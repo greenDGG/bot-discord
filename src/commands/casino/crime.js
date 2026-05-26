@@ -12,6 +12,7 @@ module.exports = {
   name: 'crime',
   alias: ['crimen'],
   description: 'Intenta cometer un crimen (alto riesgo, alta recompensa)',
+  category: 'casino',
   options: [],
 
   async run(ctx) {

@@ -8,6 +8,7 @@ module.exports = {
   name: 'ppt',
   alias: [],
   description: 'Juega Piedra Papel o Tijera contra el bot',
+  category: 'games',
   options: [
     { name: 'eleccion', type: 'STRING', required: true, description: 'piedra, papel o tijera' },
   ],

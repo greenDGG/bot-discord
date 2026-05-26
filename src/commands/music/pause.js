@@ -2,6 +2,7 @@ module.exports = {
   name: 'pause',
   alias: ['pausar'],
   description: 'Pausa la música',
+  category: 'music',
   options: [],
 
   async run(ctx) {

@@ -4,6 +4,7 @@ module.exports = {
   name: 'slowmode',
   alias: ['sm', 'lento'],
   description: 'Configura el modo lento del canal (en segundos, 0 para desactivar)',
+  category: 'admin',
   options: [
     { name: 'segundos', type: 'INTEGER', required: true, description: 'Segundos (0 - 21600)' },
   ],

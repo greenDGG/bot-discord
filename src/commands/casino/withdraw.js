@@ -6,6 +6,7 @@ module.exports = {
   name: 'withdraw',
   alias: ['retirar', 'with'],
   description: 'Retira dinero del banco a tu mano (withdraw <cantidad|all>)',
+  category: 'casino',
   options: [
     { name: 'cantidad', type: 'STRING', required: true, description: 'Cantidad a retirar (o "all")' },
   ],

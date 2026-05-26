@@ -4,6 +4,7 @@ module.exports = {
   name: 'unlock',
   alias: ['desbloquear'],
   description: 'Desbloquea el canal',
+  category: 'admin',
   options: [],
 
   async run(ctx) {

@@ -13,6 +13,7 @@ module.exports = {
   name: 'timeout',
   alias: ['silenciar', 'to'],
   description: 'Aplica un timeout nativo a un usuario (ej: 10m, 1h, 1d)',
+  category: 'admin',
   options: [
     { name: 'usuario',  type: 'USER',   required: true,  description: 'Usuario' },
     { name: 'duracion', type: 'STRING', required: true,  description: 'Duración: 10s, 5m, 1h, 1d (máx 28d)' },

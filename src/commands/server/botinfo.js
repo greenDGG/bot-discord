@@ -4,6 +4,7 @@ module.exports = {
   name: 'botinfo',
   alias: ['bi'],
   description: 'Información sobre el bot',
+  category: 'server',
   options: [],
 
   async run(ctx) {

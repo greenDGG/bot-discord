@@ -4,6 +4,7 @@ module.exports = {
   name: 'avatar',
   alias: ['av'],
   description: 'Muestra el avatar de un usuario',
+  category: 'fun',
   options: [
     { name: 'usuario', type: 'USER', required: false, description: 'Usuario (deja vacío para verte a ti)' },
   ],

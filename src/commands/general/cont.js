@@ -2,6 +2,7 @@ module.exports = {
   name: 'cont',
   alias: [],
   description: 'Notifica al dueño del servidor',
+  category: 'general',
   options: [],
 
   async run(ctx) {

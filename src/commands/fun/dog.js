@@ -5,6 +5,7 @@ module.exports = {
   name: 'dog',
   alias: ['perro'],
   description: 'Muestra una foto aleatoria de un perro',
+  category: 'fun',
   options: [],
 
   async run(ctx) {

@@ -5,6 +5,7 @@ module.exports = {
   name: 'buscaminas',
   alias: ['minesweeper'],
   description: 'Genera un tablero de buscaminas en Discord',
+  category: 'games',
   options: [],
 
   async run(ctx) {

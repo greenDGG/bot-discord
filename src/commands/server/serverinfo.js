@@ -4,6 +4,7 @@ module.exports = {
   name: 'serverinfo',
   alias: ['svi'],
   description: 'Muestra información del servidor',
+  category: 'server',
   options: [],
 
   async run(ctx) {

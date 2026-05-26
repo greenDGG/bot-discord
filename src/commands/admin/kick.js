@@ -4,6 +4,7 @@ module.exports = {
   name: 'kick',
   alias: ['expulsar'],
   description: 'Expulsa a un usuario del servidor',
+  category: 'admin',
   options: [
     { name: 'usuario', type: 'USER',   required: true, description: 'Usuario a expulsar' },
     { name: 'razon',   type: 'STRING', required: true, description: 'Razón', rest: true },

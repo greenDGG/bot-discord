@@ -10,6 +10,7 @@ module.exports = {
   name: '8ball',
   alias: [],
   description: 'La bola mágica responde tu pregunta',
+  category: 'games',
   options: [
     { name: 'pregunta', type: 'STRING', required: true, description: 'Tu pregunta', rest: true },
   ],

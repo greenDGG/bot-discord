@@ -5,6 +5,7 @@ module.exports = {
   name: 'level',
   alias: ['nivel'],
   description: 'Muestra el nivel y XP de un usuario',
+  category: 'general',
   options: [
     { name: 'usuario', type: 'USER', required: false, description: 'Usuario (deja vacío para verte a ti)' },
   ],

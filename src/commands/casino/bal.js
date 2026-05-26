@@ -7,6 +7,7 @@ module.exports = {
   name: 'bal',
   alias: ['balance', 'saldo'],
   description: 'Muestra tu balance de dinero',
+  category: 'casino',
   options: [
     { name: 'usuario', type: 'USER', required: false, description: 'Usuario (deja vacío para verte a ti)' },
   ],

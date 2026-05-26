@@ -5,6 +5,7 @@ module.exports = {
   name: 'warns',
   alias: ['advertencias'],
   description: 'Muestra las advertencias de un usuario',
+  category: 'admin',
   options: [
     { name: 'usuario', type: 'USER', required: false, description: 'Usuario (deja vacío para verte a ti)' },
   ],

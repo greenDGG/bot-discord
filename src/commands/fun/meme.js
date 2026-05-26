@@ -5,6 +5,7 @@ module.exports = {
   name: 'meme',
   alias: [],
   description: 'Muestra un meme de r/SpanishMeme',
+  category: 'fun',
   options: [],
 
   async run(ctx) {

@@ -7,6 +7,7 @@ module.exports = {
   name: 'rob',
   alias: ['robar'],
   description: 'Intenta robar dinero en mano de otro usuario',
+  category: 'casino',
   options: [
     { name: 'usuario', type: 'USER', required: true, description: 'Usuario al que robar' },
   ],

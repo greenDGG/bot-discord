@@ -6,6 +6,7 @@ module.exports = {
   name: 'coinflip',
   alias: ['cf', 'moneda'],
   description: 'Apuesta a cara o cruz (coinflip <cara|cruz> <cantidad>)',
+  category: 'casino',
   options: [
     { name: 'eleccion', type: 'STRING', required: true,  description: 'cara o cruz' },
     { name: 'apuesta',  type: 'STRING', required: true,  description: 'Cantidad a apostar (o "all")' },

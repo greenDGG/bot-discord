@@ -12,6 +12,7 @@ module.exports = {
   name: 'slut',
   alias: ['callejear'],
   description: 'Trabajo callejero con riesgo medio',
+  category: 'casino',
   options: [],
 
   async run(ctx) {

@@ -5,6 +5,7 @@ module.exports = {
   name: 'kill',
   alias: ['matar'],
   description: 'Mata a alguien (gif animado)',
+  category: 'fun',
   options: [
     { name: 'usuario', type: 'USER', required: true, description: 'Usuario a matar' },
   ],

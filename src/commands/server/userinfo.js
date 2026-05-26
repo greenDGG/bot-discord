@@ -11,6 +11,7 @@ module.exports = {
   name: 'userinfo',
   alias: ['uinfo'],
   description: 'Muestra información de un usuario',
+  category: 'server',
   options: [
     { name: 'usuario', type: 'USER', required: false, description: 'Usuario (deja vacío para verte a ti)' },
   ],

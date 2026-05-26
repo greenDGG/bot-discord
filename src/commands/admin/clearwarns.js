@@ -5,6 +5,7 @@ module.exports = {
   name: 'clearwarns',
   alias: ['borrarwarns', 'cw'],
   description: 'Borra todas las advertencias de un usuario',
+  category: 'admin',
   options: [
     { name: 'usuario', type: 'USER', required: true, description: 'Usuario al que borrar las advertencias' },
   ],

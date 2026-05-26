@@ -4,6 +4,7 @@ module.exports = {
   name: 'unban',
   alias: [],
   description: 'Desbanea a un usuario por su ID',
+  category: 'admin',
   options: [
     { name: 'id',    type: 'STRING', required: true,  description: 'ID del usuario a desbanear' },
     { name: 'razon', type: 'STRING', required: false, description: 'Razón', rest: true },

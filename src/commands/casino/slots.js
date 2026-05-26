@@ -11,6 +11,7 @@ module.exports = {
   name: 'slots',
   alias: ['slot', 'tragamonedas'],
   description: 'Gira el tragamonedas (slots <apuesta>)',
+  category: 'casino',
   options: [
     { name: 'apuesta', type: 'STRING', required: true, description: 'Cantidad a apostar (o "all")' },
   ],

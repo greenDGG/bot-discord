@@ -6,6 +6,7 @@ module.exports = {
   name: 'warn',
   alias: ['advertir'],
   description: 'Advierte a un usuario y guarda el registro',
+  category: 'admin',
   options: [
     { name: 'usuario', type: 'USER',   required: true, description: 'Usuario a advertir' },
     { name: 'razon',   type: 'STRING', required: true, description: 'Razón', rest: true },
