@@ -6,7 +6,7 @@ const TYPES = {
     label: '👋 Bienvenida',
     vars:  '`{user}` `{username}` `{server}` `{membercount}`',
   },
-  despedida: {
+  goodbye: {
     label: '🚪 Despedida',
     vars:  '`{user}` `{username}` `{server}` `{membercount}`',
   },

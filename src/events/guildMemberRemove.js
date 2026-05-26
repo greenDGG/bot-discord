@@ -15,7 +15,7 @@ module.exports = {
     const canal = client.channels.cache.get(channelId);
     if (!canal) return;
 
-    const texto = (msgs.despedida ?? '**{username}** ha dejado el servidor 😔')
+    const texto = (msgs.goodbye ?? '**{username}** ha dejado el servidor 😔')
       .replace(/{user}/g,        member.user.username)
       .replace(/{username}/g,    member.user.username)
       .replace(/{server}/g,      member.guild.name)
