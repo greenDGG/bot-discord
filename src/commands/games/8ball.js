@@ -1,0 +1,22 @@
+const { EmbedBuilder } = require('discord.js');
+
+const responses = [
+  'Sí', 'No', 'Definitivamente', 'Absolutamente',
+  'Ni en un millón de años', 'Nunca', 'Sigue soñando',
+  'Tal vez', 'Mañana', 'No sé', 'Puede ser', 'Mmm...', 'Eeee...', '👀',
+];
+
+module.exports = {
+  name: '8ball',
+  alias: [],
+  description: 'La bola mágica responde tu pregunta',
+
+  execute(client, message, args) {
+    const question = args.join(' ');
+    if (!question) return message.channel.send('¡Escribe tu pregunta!');
+    message.channel.send({ embeds: [new EmbedBuilder()
+      .setTitle(':8ball: 8Ball :8ball:')
+      .setDescription(`**Tu pregunta:**\n${question}\n\n**Mi respuesta:**\n${responses[Math.floor(Math.random() * responses.length)]}`)
+      .setColor(0x0008ff)] });
+  },
+};
