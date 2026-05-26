@@ -1,10 +1,16 @@
+const { PermissionFlagsBits } = require('discord.js');
 const { prefixDB } = require('../utils/db');
 const { nivelesFunc } = require('../utils/levels');
+const config = require('../config');
 
 const saludos = [
   'Hola', 'Hola ¿cómo estás?', 'Holis 😁', '¡HOLA!', 'Hi', '¡Qué tal!',
   'Buenos días', 'Buenas tardes', 'Buenas noches', '¡Hola gente!', 'Hellou',
 ];
+
+async function autoDelete(msg, ms = 5000) {
+  setTimeout(() => msg.delete().catch(() => null), ms);
+}
 
 module.exports = {
   name: 'messageCreate',
@@ -12,12 +18,12 @@ module.exports = {
   async execute(client, message) {
     if (!message.guild || message.author.bot) return;
 
-    const prefix = await prefixDB.get(`prefix_${message.guild.id}`) ?? 'xm!';
+    const prefix = await prefixDB.get(`prefix_${message.guild.id}`) ?? config.prefix;
 
     // Respuesta al ser mencionado
     if (message.content.match(new RegExp(`^<@!?${client.user.id}>\\s*$`))) {
       return message.channel.send(
-        `**Hola! Soy ${client.user.username}. Mi prefix es \`${prefix}\`\nEscribe \`${prefix}help\` para ver los comandos.**`
+        `**Hola! Soy ${client.user.username}. Mi prefix es \`${prefix}\`\nEscribe \`${prefix}help\` para ver los comandos.**`,
       );
     }
 
@@ -30,14 +36,16 @@ module.exports = {
     }
 
     // Anti-enlaces
-    if (!message.member.permissions.has('Administrator')) {
+    if (!message.member.permissions.has(PermissionFlagsBits.Administrator)) {
       if (/https?:\/\//.test(message.content)) {
         await message.delete().catch(() => null);
-        return message.channel.send('No puedes enviar enlaces!');
+        const warn = await message.channel.send('❌ No puedes enviar enlaces.');
+        return autoDelete(warn);
       }
       if (message.content.includes('discord.gg')) {
         await message.delete().catch(() => null);
-        return message.channel.send('No puedes enviar invitaciones de otros servers!!');
+        const warn = await message.channel.send('❌ No puedes enviar invitaciones de otros servidores.');
+        return autoDelete(warn);
       }
     }
 
@@ -46,7 +54,7 @@ module.exports = {
     const args    = message.content.slice(prefix.length).trim().split(/ +/g);
     const cmdName = args.shift().toLowerCase();
     const cmd     = client.commands.find(
-      c => c.name === cmdName || (c.alias && c.alias.includes(cmdName))
+      c => c.name === cmdName || (c.alias && c.alias.includes(cmdName)),
     );
 
     if (cmd) {

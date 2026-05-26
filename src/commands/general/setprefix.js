@@ -5,7 +5,7 @@ module.exports = {
   name: 'setprefix',
   alias: ['sp'],
   description: 'Cambia el prefijo del bot en este servidor',
-  category: 'general',
+  category: 'admin',
   options: [
     { name: 'prefijo', type: 'STRING', required: true, description: 'Nuevo prefijo' },
   ],
